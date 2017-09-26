@@ -54,12 +54,11 @@
       </div>
 
 	<div fxFlex>
-	  <md-list>
-		<h2 md-header>Corporate Leadership</h2>
+	 <h2 md-header>Corporate Leadership</h2>
+	 <div class="container" fxLayout="column" fxLayoutGap=10px>
+		<md-list fxFlex>
 			<md-list-item *ngFor="let leader of leaders">
-				<div md-line>
-					<img class="avatar" height="50px" src={{leader.image}} alt={{leader.name}}>
-				</div>
+				<img md-list-avatar src={{leader.image}} alt={{leader.name}}>
 				
 				<p md-line><b>{{leader.name}}, {{leader.abbr}}</b></p>
 				<p md-line>{{leader.designation}}</p>
@@ -67,6 +66,7 @@
 								
 			</md-list-item>
 	  </md-list>
+	</div>
    </div>
    
 </div>
