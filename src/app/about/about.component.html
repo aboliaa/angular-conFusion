@@ -53,7 +53,7 @@
                 </md-card>
       </div>
 
-	<div fxFlex>
+	<div fxFlex *ngIf="leaders">
 	 <h2 md-header>Corporate Leadership</h2>
 	 <div class="container" fxLayout="column" fxLayoutGap=10px>
 		<md-list fxFlex>
@@ -69,4 +69,9 @@
 	</div>
    </div>
    
+   <div [hidden]="leaders">
+		<md-spinner></md-spinner>
+		<h4>Loading... Please wait</h4>
+   </div>
+	
 </div>

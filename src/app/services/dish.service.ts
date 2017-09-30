@@ -8,15 +8,21 @@ export class DishService {
 
   constructor() { }
 
-  getDish(id: number): Dish {
-	return DISHES.filter((dish) => (dish.id === id))[0];
+  getDish(id: number): Promise<Dish> {
+	return new Promise(resolve => {
+		setTimeout(() => resolve(DISHES.filter((dish) => (dish.id === id))[0]), 2000);
+	});
   }
   
-  getFeaturedDish(): Dish {
-	return DISHES.filter((dish) => dish.featured)[0];
+  getFeaturedDish(): Promise<Dish> {
+	return new Promise(resolve => {
+		setTimeout(() => resolve(DISHES.filter((dish) => dish.featured)[0]), 2000);
+	});
   }
   
-  getDishes(): Dish[] {
-	return DISHES;
+  getDishes(): Promise<Dish[]> {
+	 return new Promise(resolve => {
+		setTimeout(() => resolve(DISHES), 2000);
+	});
   }
 }
