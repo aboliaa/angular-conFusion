@@ -55,7 +55,6 @@
 		</md-list>
 		
 		<p>{{ commentForm.value | json }} {{ commentForm.status | json }}</p>
-		<p>{{formErrors | json}}</p>
 		<form novalidate [formGroup]="commentForm" (ngSubmit)="onSubmit()">
 			<p>
 				<md-input-container dividerColor="{{formErrors.author ? 'warn' : 'primary'}}">
@@ -68,7 +67,7 @@
 			</p>
 			
 			<p>
-				  <md-slider ng-model="ratingSlider" formControlName="rating" min="1" max="5" tickInterval="1" value="4" thumbLabel>
+				  <md-slider formControlName="rating" min="1" max="5" tickInterval="1" thumbLabel>
 				  </md-slider>
 			</p>
 			

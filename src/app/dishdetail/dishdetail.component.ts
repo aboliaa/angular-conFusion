@@ -55,7 +55,7 @@ export class DishdetailComponent implements OnInit {
   createForm() {
 	  this.commentForm = this.fb.group({
 		author: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
-		rating: [0],
+		rating: [5],
 		comment: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]]
 	  });
 	  
