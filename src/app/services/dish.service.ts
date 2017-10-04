@@ -23,4 +23,8 @@ export class DishService {
   getDishes(): Observable<Dish[]> {
 	return Observable.of(DISHES).delay(2000);
   }
+  
+  getDishIds(): Observable<number[]> {
+    return Observable.of(DISHES.map(dish => dish.id ));
+  }
 }

@@ -18,9 +18,16 @@
 				<p>{{dish.description}}</p>
 			</md-card-content>
 			<md-card-actions>
+				<button md-button [routerLink]="['/dishdetail', prev]">
+					<span class="fa fa-chevron-left fa-lg"></span>
+				</button>
 				<button md-button (click)="goBack()">BACK</button>
 				<button md-button>LIKE</button>
 				<button md-button>SHARE</button>
+				<span class="flex-spacer"></span>
+				<button md-button [routerLink]="['/dishdetail', next]">
+					<span class="fa fa-chevron-right fa-lg"></span>
+				</button>
 			</md-card-actions>
 		</md-card>
   </div>
@@ -29,8 +36,7 @@
 	<h4>Loading... Please wait</h4>
   </div>
 
-
-  <div fxFlex *ngIf="dish">
+  <div fxFlex="40" *ngIf="dish">
 		<md-list>
 			<h3 md-header>Comments</h3>
 			<md-list-item *ngFor="let comment of dish.comments">
@@ -38,12 +44,47 @@
 				<p md-line>{{comment.rating}} stars</p>
 				<p md-line>-- {{comment.author}} {{comment.date | date}}</p>
 			</md-list-item>
+			
+			<span [hidden]="commentForm.invalid">
+			<md-list-item>
+				<p md-line>{{commentForm.value.comment}}</p>
+				<p md-line>{{commentForm.value.rating}} stars</p>
+				<p md-line>-- {{commentForm.value.author}}</p>
+			</md-list-item>
+			</span>
 		</md-list>
+		
+		<p>{{ commentForm.value | json }} {{ commentForm.status | json }}</p>
+		<p>{{formErrors | json}}</p>
+		<form novalidate [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+			<p>
+				<md-input-container dividerColor="{{formErrors.author ? 'warn' : 'primary'}}">
+				  <input mdInput formControlName="author" placeholder="Your Name" type="text" required>
+				</md-input-container>
+				<md-hint>
+                <span [hidden]="!(formErrors.author)">
+                  {{formErrors.author}}</span>
+              </md-hint>
+			</p>
+			
+			<p>
+				  <md-slider ng-model="ratingSlider" formControlName="rating" min="1" max="5" tickInterval="1" value="4" thumbLabel>
+				  </md-slider>
+			</p>
+			
+			<p>
+				<md-input-container dividerColor="{{formErrors.comment ? 'warn' : 'primary'}}">
+				  <input mdInput formControlName="comment" placeholder="Comment" type="text" required>
+				</md-input-container>
+				<md-hint>
+                <span [hidden]="!(formErrors.comment)">
+                  {{formErrors.comment}}</span>
+              </md-hint>
+			</p>
+			<button type="submit" md-button class="background-primary text-floral-white" [disabled]="commentForm.invalid">
+				Submit
+			</button>
+		</form>
+		
   </div>
-  <div [hidden]="dish.comments">
-	<md-spinner></md-spinner>
-	<h4>Loading... Please wait</h4>
-  </div>
-
-
 </div>
