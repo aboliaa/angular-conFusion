@@ -76,7 +76,7 @@ export class DishdetailComponent implements OnInit {
 	
 	this.commentForm.reset({
 		author: '',
-		rating: 0,
+		rating: 5,
 		comment: ''
 	});
 	
@@ -85,7 +85,7 @@ export class DishdetailComponent implements OnInit {
   
   formErrors = {
 	author: '',
-	rating: 0,
+	rating: 5,
 	comment: ''
   }
   
