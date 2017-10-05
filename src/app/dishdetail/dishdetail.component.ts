@@ -1,14 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Http, Response } from '@angular/http';
+import { baseURL } from '../shared/baseurl';
 
 import { Dish } from '../shared/dish';
 import { Comment } from '../shared/comment';
 import { DishService } from '../services/dish.service';
 
 import 'rxjs/add/operator/switchMap';
-
 
 @Component({
   selector: 'app-dishdetail',
@@ -24,22 +25,30 @@ export class DishdetailComponent implements OnInit {
   next: number;
   commentForm: FormGroup;
   comment: Comment;
+  errMess: string;
   
   constructor(private dishService: DishService,
 		private route: ActivatedRoute,
 		private location: Location,
-		private fb: FormBuilder) {
+		private fb: FormBuilder,
+		@Inject('BaseURL') private BaseURL) {
 	this.createForm();
   }
 
   ngOnInit() {
 	let id = +this.route.snapshot.params['id'];
-	this.dishService.getDish(id).subscribe(dish => this.dish = dish);
-	this.dishService.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
+	this.dishService.getDish(id)
+		.subscribe(dish => this.dish = dish,
+		errmess => this.errMess = <any>errmess);
+		
+	this.dishService.getDishIds()
+		.subscribe(dishIds => this.dishIds = dishIds,
+		errmess => this.errMess = <any>errmess);
 	
 	this.route.params
 	.switchMap((params: Params) => this.dishService.getDish(+params['id']))
-	.subscribe(dish => {this.dish = dish; this.setPrevNext(dish.id);});
+	.subscribe(dish => {this.dish = dish; this.setPrevNext(dish.id);},
+	errmess => this.errMess = <any>errmess);
   }
 
   goBack(): void {
@@ -59,7 +68,9 @@ export class DishdetailComponent implements OnInit {
 		comment: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]]
 	  });
 	  
-	  this.commentForm.valueChanges.subscribe(data => this.onValueChanged(data));
+	  this.commentForm.valueChanges
+		.subscribe(data => this.onValueChanged(data),
+		errmess => this.errMess = <any>errmess);
 	  this.onValueChanged();
   }
   

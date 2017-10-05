@@ -13,7 +13,7 @@
 					<h3>{{dish.name | uppercase}}</h3>
 				</md-card-title>
 			</md-card-header>
-			<img md-card-image src={{dish.image}} alt={{dish.name}}>
+			<img md-card-image src="{{BaseURL}}{{dish.image}}" alt={{dish.name}}>
 			<md-card-content>
 				<p>{{dish.description}}</p>
 			</md-card-content>
@@ -31,11 +31,16 @@
 			</md-card-actions>
 		</md-card>
   </div>
-  <div [hidden]="dish">
+  <div [hidden]="dish || errMess">
 	<md-spinner></md-spinner>
 	<h4>Loading... Please wait</h4>
   </div>
 
+  <div *ngIf="errMess">
+	<h2>Error</h2>
+	<h4>{{errMess}}</h4>
+  </div>
+	
   <div fxFlex="40" *ngIf="dish">
 		<md-list>
 			<h3 md-header>Comments</h3>
