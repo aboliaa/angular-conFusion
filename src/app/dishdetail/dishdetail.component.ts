@@ -26,6 +26,7 @@ export class DishdetailComponent implements OnInit {
   commentForm: FormGroup;
   comment: Comment;
   errMess: string;
+  dishcopy = null;
   
   constructor(private dishService: DishService,
 		private route: ActivatedRoute,
@@ -46,9 +47,9 @@ export class DishdetailComponent implements OnInit {
 		errmess => this.errMess = <any>errmess);
 	
 	this.route.params
-	.switchMap((params: Params) => this.dishService.getDish(+params['id']))
-	.subscribe(dish => {this.dish = dish; this.setPrevNext(dish.id);},
-	errmess => this.errMess = <any>errmess);
+      .switchMap((params: Params) => { return this.dishService.getDish(+params['id']); })
+      .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); },
+		errmess => { this.dish = null; this.errMess = <any>errmess; }); 
   }
 
   goBack(): void {
@@ -79,11 +80,7 @@ export class DishdetailComponent implements OnInit {
 	console.log(this.comment);
 	
 	var d = new Date();
-	var comment = {"author": this.comment.author,
-				"rating": +this.comment.rating,
-				"comment": this.comment.comment,
-				"date": d.toISOString()}
-	this.dish.comments.push(comment);
+	this.comment["date"] = d.toISOString();
 	
 	this.commentForm.reset({
 		author: '',
@@ -91,7 +88,9 @@ export class DishdetailComponent implements OnInit {
 		comment: ''
 	});
 	
-	console.log(this.dish);
+	this.dishcopy.comments.push(this.comment);
+	this.dishcopy.save()
+		.subscribe(dish => {this.dish = dish; console.log(this.dish);});
   }
   
   formErrors = {
