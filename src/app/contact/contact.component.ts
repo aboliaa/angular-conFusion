@@ -25,7 +25,9 @@ export class ContactComponent implements OnInit {
   contactType = ContactType;
   errMess: string;
   submission = null;
-  spinner = false;
+  showspinner = false;
+  showform = true;
+  showfeedback = false;
 
   constructor(private feedbackService: FeedbackService,
 			private fb: FormBuilder) {
@@ -69,7 +71,9 @@ export class ContactComponent implements OnInit {
   }
   
   onSubmit() {
-	this.spinner = true;
+	this.showform = false;
+	this.showspinner = true;
+	
 	this.feedback = this.feedbackForm.value;
 	console.log(this.feedback);
 	this.feedbackForm.reset({
@@ -86,15 +90,18 @@ export class ContactComponent implements OnInit {
 		.subscribe(feedback => {
 			this.submission = feedback;
 			console.log(this.feedback);
-			this.spinner = false;
 			
+			this.showspinner = false;
+			this.showfeedback = true;
 			
+			setTimeout(()=>{
+				this.submission = null;
+				this.showfeedback = false;
+				this.showform = true;
+			},5000);
 		},
 		errmess => this.errMess = <any>errmess);
 	
-	setTimeout(()=>{
-		this.submission = null;
-	},3000);
 	
   }
   
