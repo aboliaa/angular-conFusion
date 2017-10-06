@@ -69,14 +69,14 @@
 	</div>
    </div>
    
-   <div [hidden]="leaders || errMess">
+   <div [hidden]="leaders || LeaderErrMess">
 		<md-spinner></md-spinner>
 		<h4>Loading... Please wait</h4>
    </div>
    
-   <div *ngIf="errMess">
+   <div *ngIf="LeaderErrMess">
 		<h2>Error</h2>
-		<h4>{{errMess}}</h4>
+		<h4>{{LeaderErrMess}}</h4>
     </div>
 	
 	

@@ -40,7 +40,7 @@
         <h3>Send us your Feedback</h3>
         <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p>
 
-		<form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
+		<form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" [hidden]="spinner">
           <p>
             <md-input-container class="half-width"
              dividerColor="{{formErrors.firstname ? 'warn' : 'primary'}}">
@@ -98,6 +98,25 @@
 			Submit
 		  </button>
         </form>
-		
-      </div>
+
+		<span *ngIf="submission">
+			<h3>Your Submission</h3>
+			<md-list-item>
+				<p md-line>First Name: {{submission.firstname}}</p>
+				<p md-line>Last Name: {{submission.lastname}}</p>
+				<p md-line>Tel. number: {{submission.telnum}}</p>
+				<p md-line>Email: {{submission.email}}</p>
+				<p md-line>Contact you?: {{submission.agree}}</p>
+				<p md-line>How?: {{submission.contacttype}}</p>
+				<p md-line>Feedback: {{submission.message}}</p>
+			</md-list-item>
+		</span>
+      
+
+	   <div [hidden]="!spinner">
+		<md-spinner></md-spinner>
+		<h4>Loading... Please wait</h4>
+	   </div>
+	   
+    </div>
 </div>

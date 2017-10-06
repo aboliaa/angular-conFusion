@@ -42,11 +42,14 @@
     </p>
   </md-card-content>
 </md-card>
-<div [hidden]="promotion">
+<div [hidden]="promotion || PromotionErrMess">
 	<md-spinner></md-spinner>
 	<h4>Loading... Please wait</h4>
 </div>
-
+<div *ngIf="PromotionErrMess">
+	<h2>Error</h2>
+	<h4>{{PromotionErrMess}}</h4>
+</div>
 
 <md-card *ngIf="leader" fxFlex>
   <md-card-header>
@@ -62,9 +65,13 @@
     </p>
   </md-card-content>
 </md-card>
-<div [hidden]="leader">
+<div [hidden]="leader || LeaderErrMess">
 	<md-spinner></md-spinner>
 	<h4>Loading... Please wait</h4>
+</div>
+<div *ngIf="LeaderErrMess">
+	<h2>Error</h2>
+	<h4>{{LeaderErrMess}}</h4>
 </div>
 	
 </div>
